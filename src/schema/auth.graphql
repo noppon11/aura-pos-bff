@@ -1,0 +1,26 @@
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+type User {
+  id: ID!
+  email: String!
+  role: UserRole!
+  tenantId: String!
+}
+
+enum UserRole {
+  admin
+  manager
+  cashier
+}
+
+type Query {
+  me: User
+}
+
+type Mutation {
+  login(email: String!, password: String!, tenantId: String!): AuthPayload!
+  logout: Boolean!
+}

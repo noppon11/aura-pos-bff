@@ -1,0 +1,14 @@
+type Product {
+  id: ID!
+  name: String!
+  price: Float!
+  category: String!
+  imageUrl: String
+  stock: Int!
+  tenantId: String!
+}
+
+extend type Query {
+  products(tenantId: String): [Product!]!
+  product(id: ID!, tenantId: String): Product
+}

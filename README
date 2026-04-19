@@ -1,0 +1,68 @@
+# aura-pos-bff
+
+Backend For Frontend — GraphQL layer between `aura-pos-fe` and `pos-service`.
+
+## Setup
+
+```bash
+cp .env.example .env
+npm install
+npm run dev
+```
+
+## Environment variables
+
+| Variable | Default | Description |
+|---|---|---|
+| `PORT` | `4000` | BFF server port |
+| `POS_SERVICE_URL` | `http://localhost:8080` | Go BE URL |
+| `JWT_SECRET` | `secret` | Must match pos-service JWT secret |
+| `CORS_ORIGIN` | `http://localhost:5173` | FE dev server URL |
+
+## Endpoints
+
+- `GET  /health` — health check
+- `POST /graphql` — GraphQL endpoint
+
+## GraphQL Queries
+
+```graphql
+# Login
+mutation {
+  login(email: "admin@aura-bkk.com", password: "password", tenantId: "aura-bkk") {
+    token
+    user { id email role tenantId }
+  }
+}
+
+# Get current user (requires Authorization header)
+query {
+  me { id email role tenantId }
+}
+
+# Get products
+query {
+  products(tenantId: "aura-bkk") {
+    id name price category stock imageUrl
+  }
+}
+
+# Get branches (admin/manager only)
+query {
+  branches(tenantId: "aura-bkk") {
+    id name address
+  }
+}
+```
+
+## How it connects
+
+```
+aura-pos-fe (React)
+    ↓  GraphQL  :4000
+aura-pos-bff (Node.js)
+    ↓  REST     :8080
+pos-service (Go + Gin)
+    ↓
+PostgreSQL
+```
