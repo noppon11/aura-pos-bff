@@ -1,0 +1,9 @@
+type Branch {
+  id: ID!
+  name: String!
+  address: String
+}
+
+extend type Query {
+  branches(tenantId: String!): [Branch!]!
+}

@@ -1,0 +1,15 @@
+type User {
+  id: ID!
+  name: String
+  email: String!
+  role: String!
+  tenantId: String
+}
+
+type Query {
+  me: User
+}
+
+type Mutation {
+  logout: Boolean
+}
